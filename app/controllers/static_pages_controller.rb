@@ -1,3 +1,6 @@
 class StaticPagesController < ApplicationController
-  root to: 'static_pages#root'
+
+  def root
+  end
+
 end
