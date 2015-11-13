@@ -1,7 +1,7 @@
 window.ApiUtil = {
-  fetchBenches: function() {
+  fetchBenches: function(boundsObj) {
     $.ajax ({
-      url: "/benches",
+      url: "/benches?" + boundsObj.bounds,
       method: "GET",
       dataType: "json",
       success: function(benches) {
