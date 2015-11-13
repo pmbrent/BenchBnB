@@ -8,7 +8,9 @@ window.Map = React.createClass({
       center: {lat: 40.724948, lng: -73.998893},
       zoom: 13
     });
+
     BenchStore.addChangeListener(this.makeMarkers);
+    MarkerStore.addHighlightListener(this.highlightMarker);
 
     this.googleMap.addListener('idle', function() {
       var nativeBounds = this.getBounds();
@@ -48,11 +50,30 @@ window.Map = React.createClass({
      }.bind(this));
   },
 
+  highlightMarker: function() {
+    var bench = MarkerStore.highlightedBench();
+    if (bench) {
+      var id = bench.id;
+    }
+    this._markers.forEach(function(marker) {
+      if (marker.id === id) {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+      } else {
+          marker.setAnimation(null);
+      }
+    });
+  },
+
   removeMarkers: function(oldMarkers) {
     oldMarkers.forEach(function(marker) {
       marker.setMap(null);
       this._markers.splice(this._markers.indexOf(marker), 1);
     }, this);
+  },
+
+  componentWillUnmount: function() {
+    BenchStore.removeChangeListener(this.makeMarkers);
+    MarkerStore.removeHighlightListener(this.highlightMarker);
   },
 
   render: function() {

@@ -37,11 +37,17 @@ h1 {
 ul {
   list-style: none;
   text-align: center;
-  width: calc(100% - 501px);
+  width: calc(100% - 505px);
+  border: 2px dashed orange;
+  border-bottom: 0px;
 }
 
 li {
-  border: 2px dashed orange;
+  border-bottom: 2px dashed orange;
+}
+
+li:hover {
+  font-weight: bold;
 }
 
 #map {

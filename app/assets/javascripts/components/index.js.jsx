@@ -18,7 +18,7 @@ window.Index = React.createClass({
         <h1>Bench BnB</h1>
         <ul className="BenchesIndex">
           {this.state.benches.map(function(bench) {
-            return <Bench key={bench.id} bench={bench} />;
+            return <Bench key={bench.id} bench={bench}/>;
           })}
         </ul>
       </div>
