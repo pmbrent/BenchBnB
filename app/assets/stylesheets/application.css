@@ -37,6 +37,7 @@ h1 {
 ul {
   list-style: none;
   text-align: center;
+  width: calc(100% - 501px);
 }
 
 li {
