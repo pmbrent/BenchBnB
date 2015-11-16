@@ -22,6 +22,16 @@ window.Map = React.createClass({
 
       ApiUtil.fetchBenches({bounds: bounds});
     });
+
+    this.googleMap.addListener('click', this.clickMapHandler);
+  },
+
+  clickMapHandler: function(e) {
+    coords = {
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng()
+    };
+    this.props.onClick(coords);
   },
 
   makeMarkers: function() {

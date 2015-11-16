@@ -1,6 +1,14 @@
 window.BenchForm = React.createClass({
   getInitialState: function() {
-    return {lat: 0, lng: 0, description: "A nice place to sit."};
+    var lat = 0;
+    var lng = 0;
+
+    if (this.props.location.query) {
+      lat = parseFloat(this.props.location.query.lat);
+      lng = parseFloat(this.props.location.query.lng);
+    }
+
+    return {lat: lat, lng: lng, description: "A nice place to sit."};
   },
 
   updateLat: function(event) {
