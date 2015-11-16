@@ -1,11 +1,9 @@
 window.ShowBench = React.createClass({
 
   getInitialState: function() {
-    var foundBench = null;
-    if (typeof this.props.benchId !== "undefined") {
-      foundBench = {bench: ApiUtil.findBench(this.props.benchId)};
-    }
-    return foundBench;
+    return {
+      bench: ApiUtil.findBench(this.props.location.pathname.split("/")[2])
+    };
   },
 
   componentDidMount: function() {
@@ -18,7 +16,7 @@ window.ShowBench = React.createClass({
   },
 
   render: function() {
-    if (typeof this.state.bench === "undefined") {
+    if (this.state === null || typeof this.state.bench === "undefined") {
       return <div></div>;
     } else {
     return (

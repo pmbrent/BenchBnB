@@ -3,19 +3,17 @@ window.Map = React.createClass({
   googleMap: undefined,
   _markers: [],
 
-  getInitialState: function() {
-    var foundBench = null;
-    if (typeof this.props.benchId !== "undefined") {
-      foundBench = {bench: ApiUtil.findBench(this.props.benchId)};
-    }
-    return foundBench;
-  },
-
   componentDidMount: function() {
 
     var lat = 40.724948;
     var lng = -73.998893;
     var zoom = 11;
+
+    if (typeof this.props.bench !== "undefined") {
+      lat = this.props.bench.lat;
+      lng = this.props.bench.lng;
+      zoom = 15;
+    }
 
     this.googleMap = new google.maps.Map(document.getElementById("map"), {
       center: {lat: lat, lng: lng},
@@ -25,8 +23,12 @@ window.Map = React.createClass({
     BenchStore.addChangeListener(this.makeMarkers);
     MarkerStore.addHighlightListener(this.highlightMarker);
 
-    if (typeof this.props.benchId !== "undefined") {
-      BenchStore.addBenchListener(this.receiveBench);
+    if (typeof this.props.bench !== "undefined") {
+      this.googleMap.setOptions({draggable: false});
+
+      var LatLng = {lat: this.props.bench.lat, lng: this.props.bench.lng};
+      this._markers.push(new google.maps.Marker({map: this.googleMap, position: LatLng,
+        animation: google.maps.Animation.DROP, id: this.props.benchId}));
 
     } else {
       this.googleMap.addListener('idle', function() {
@@ -47,24 +49,11 @@ window.Map = React.createClass({
         ApiUtil.fetchBenches();
       });
 
-    if (typeof this.props.benchId === "undefined") {
+    if (typeof this.props.bench === "undefined") {
       this.googleMap.addListener('click', this.clickMapHandler);
     }
 
   }},
-
-  receiveBench: function() {
-    var newBench = BenchStore.all()[0];
-    this.setState({bench: newBench});
-    this.googleMap.setOptions({draggable: false,
-                               center: {
-                                 lat: this.state.bench.lat,
-                                 lng: this.state.bench.lng},
-                               zoom: 15});
-    var LatLng = {lat: this.state.bench.lat, lng: this.state.bench.lng};
-    this._markers.push(new google.maps.Marker({map: this.googleMap, position: LatLng,
-      animation: google.maps.Animation.DROP, id: this.props.benchId}));
-  },
 
   clickMapHandler: function(e) {
     coords = {
@@ -122,10 +111,11 @@ window.Map = React.createClass({
   },
 
   componentWillUnmount: function() {
-    if (this.state !== null) {
+    if (this.props.bench !== null) {
+      BenchStore.removeBenchListener(this.receiveBench);
+    }
       BenchStore.removeChangeListener(this.makeMarkers);
       MarkerStore.removeHighlightListener(this.highlightMarker);
-    }
   },
 
   render: function() {
