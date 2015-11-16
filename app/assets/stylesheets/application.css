@@ -44,6 +44,7 @@ ul {
 
 li {
   border-bottom: 2px dashed orange;
+  padding: 10px;
 }
 
 li:hover {
