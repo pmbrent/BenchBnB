@@ -12,6 +12,10 @@ window.Index = React.createClass({
     this.setState({ benches: BenchStore.all() });
   },
 
+  componentWillUnmount: function() {
+    BenchStore.removeChangeListener(this.updateState);
+  },
+
   render: function() {
     return (
       <div>

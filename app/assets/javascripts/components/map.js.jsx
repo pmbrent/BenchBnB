@@ -2,6 +2,7 @@ window.Map = React.createClass({
 
   googleMap: undefined,
   _markers: [],
+  isBenchMap: false,
 
   componentDidMount: function() {
 
@@ -10,6 +11,7 @@ window.Map = React.createClass({
     var zoom = 11;
 
     if (typeof this.props.bench !== "undefined") {
+      isBenchMap = true;
       lat = this.props.bench.lat;
       lng = this.props.bench.lng;
       zoom = 15;
@@ -63,6 +65,10 @@ window.Map = React.createClass({
     this.props.onClick(coords);
   },
 
+  clickMarker: function(markerId) {
+    this.props.clickBenchHandler(markerId);
+  },
+
   makeMarkers: function() {
     var LatLng;
     var benches = BenchStore.all();
@@ -82,9 +88,17 @@ window.Map = React.createClass({
 
     benches.forEach(function(bench) {
       if (ids.indexOf(bench.id) < 0) {
-      LatLng = {lat: bench.lat, lng: bench.lng};
-      this._markers.push(new google.maps.Marker({map: this.googleMap, position: LatLng,
-        animation: google.maps.Animation.DROP, id: bench.id}));
+        LatLng = {lat: bench.lat, lng: bench.lng};
+
+        var newMarker = new google.maps.Marker({
+                          map: this.googleMap,
+                          position: LatLng,
+                          animation: google.maps.Animation.DROP,
+                          id: bench.id});
+        // newMarker.addListener("click",
+        //   function() {
+        //     this.clickMarker.call(newMarker.id);}.bind(this));
+        this._markers.push(newMarker);
       }
      }.bind(this));
   },
@@ -98,7 +112,7 @@ window.Map = React.createClass({
       if (marker.id === id) {
         marker.setAnimation(google.maps.Animation.BOUNCE);
       } else {
-          marker.setAnimation(null);
+        marker.setAnimation(null);
       }
     });
   },
@@ -111,7 +125,7 @@ window.Map = React.createClass({
   },
 
   componentWillUnmount: function() {
-    if (this.props.bench !== null) {
+    if (this.isBenchMap) {
       BenchStore.removeBenchListener(this.receiveBench);
     }
       BenchStore.removeChangeListener(this.makeMarkers);

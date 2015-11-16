@@ -32,10 +32,15 @@ window.Search = React.createClass({
     this.props.history.pushState(null, "/bench/" + bench_id);
   },
 
+  componentWillUnmount: function() {
+    FilterStore.removeChangeListener(this.updateParams);
+  },
+
   render: function() {
     return (
       <div>
-        <Map onClick={this.clickMapHandler}/>
+        <Map clickBenchHandler={this.clickBenchHandler}
+             onClick={this.clickMapHandler}/>
         <FilterParams/>
         <Index clickBenchHandler={this.clickBenchHandler}/>
       </div>

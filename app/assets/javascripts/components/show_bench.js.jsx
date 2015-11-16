@@ -20,7 +20,14 @@ window.ShowBench = React.createClass({
       return <div></div>;
     } else {
     return (
-      <Map bench={this.state.bench}/>
+      <div>
+        <Map bench={this.state.bench}/>
+          <li className="bench">
+            <p>Latitude: {this.state.bench.lat}, Longitude: {this.state.bench.lng}</p>
+            <p>Seats up to: {this.state.bench.seating}</p>
+            <p>Description: {this.state.bench.description}</p>
+          </li>
+      </div>
     );
   }}
 
