@@ -11,14 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151113140252) do
+ActiveRecord::Schema.define(version: 20151116142635) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "benches", force: :cascade do |t|
-    t.text     "description", null: false
-    t.float    "lat",         null: false
-    t.float    "lng",         null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.text     "description",             null: false
+    t.float    "lat",                     null: false
+    t.float    "lng",                     null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "seating",     default: 3, null: false
   end
 
 end

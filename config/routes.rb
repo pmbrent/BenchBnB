@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :benches, only: [:index, :show]
+  resources :benches, only: [:index, :show, :create]
 
   root to: 'static_pages#root'
 

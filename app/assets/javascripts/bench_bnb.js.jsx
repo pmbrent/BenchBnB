@@ -21,6 +21,7 @@ React.render((
   <Router>
     <Route path="/" component={App}>
       <IndexRoute component={Search} />
+      <Route path="benches/new" component={BenchForm} />
     </Route>
   </Router>
 ), rootEl);

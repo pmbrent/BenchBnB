@@ -8,5 +8,13 @@ window.ApiUtil = {
         ApiActions.receiveAllBenches(benches);
       }
     });
+  },
+  createBench: function(bench) {
+    $.ajax ({
+      url: "/benches",
+      method: "POST",
+      dataType: "json",
+      data: {bench: bench},
+    });
   }
 };
