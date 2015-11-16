@@ -35,20 +35,23 @@ window.FilterParams = React.createClass({
 
   render: function() {
     return (
-      <form>
-        <label htmlFor="seating_min">Min. seating:
+      <form className="seating">
+        Searching for benches to seat
+        <label htmlFor="seating_min">at least
           <input type="text"
             id="seating_min"
             value={this.state.seating.min}
             onChange={this.updateMin}/>
         </label>
-        <br/>
-        <label htmlFor="seating_max">Max. seating:
+
+        <label htmlFor="seating_max">and at most
           <input type="text"
             id="seating_max"
             value={this.state.seating.max}
             onChange={this.updateMax}/>
         </label>
+         people...
+         <br/>
       </form>);
   }
 });

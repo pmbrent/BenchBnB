@@ -34,36 +34,42 @@ window.BenchForm = React.createClass({
   },
 
   render: function() {
-    return (<form onSubmit={this.submitForm}>
-      <label htmlFor="lat">Latitude:
-        <input type="text"
-          id="lat"
-          value={this.state.lat}
-          onChange={this.updateLat}/>
-      </label>
-      <br/>
-      <label htmlFfor="lng">Longitude:
-        <input type="text"
-          id="lng"
-          value={this.state.lng}
-          onChange={this.updateLng}/>
-      </label>
-      <br/>
-      <label htmlFfor="seating">Seating:
-        <input type="text"
-          id="seating"
-          value={this.state.seating}
-          onChange={this.updateSeating}/>
-      </label>
-      <br/>
-      <label htmlFor="description">Description:
-        <textarea id="description"
-          value={this.state.description}
-          onChange={this.updateDescription}>
-        </textarea>
-      </label>
-      <br/>
-      <input type="submit" value="Add Bench!"/>
-    </form>);
+    return (
+      <div className="benchForm">
+        <form onSubmit={this.submitForm}>
+          <label htmlFor="lat">Latitude:
+            <input type="text"
+              id="lat"
+              value={this.state.lat}
+              onChange={this.updateLat}/>
+          </label>
+          <br/>
+          <label htmlFfor="lng">Longitude:
+            <input type="text"
+              id="lng"
+              value={this.state.lng}
+              onChange={this.updateLng}/>
+          </label>
+          <br/>
+          <label htmlFfor="seating">Seating:
+            <input type="text"
+              id="seating"
+              value={this.state.seating}
+              onChange={this.updateSeating}/>
+          </label>
+          <br/>
+          <label htmlFor="description">Description:
+            <textarea id="description"
+              value={this.state.description}
+              onChange={this.updateDescription}>
+            </textarea>
+          </label>
+          <br/>
+          <input type="submit" value="Add Bench!"/>
+        </form>
+        <br/>
+        <a href="/#">Back to Main</a>
+      </div>
+    );
   }
 });
