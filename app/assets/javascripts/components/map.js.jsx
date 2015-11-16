@@ -15,12 +15,20 @@ window.Map = React.createClass({
     this.googleMap.addListener('idle', function() {
       var nativeBounds = this.getBounds();
 
-      var bounds = "bounds[northEast][lat]=" + nativeBounds.getNorthEast().lat();
-          bounds += "&bounds[northEast][lng]=" + nativeBounds.getNorthEast().lng();
-          bounds += "&bounds[southWest][lat]=" + nativeBounds.getSouthWest().lat();
-          bounds += "&bounds[southWest][lng]=" + nativeBounds.getSouthWest().lng();
+      FilterStore.updateParams({
+          bounds: {
+            northEast: {
+              lat: nativeBounds.getNorthEast().lat(),
+              lng: nativeBounds.getNorthEast().lng()
+            },
+            southWest: {
+              lat: nativeBounds.getSouthWest().lat(),
+              lng: nativeBounds.getSouthWest().lng()
+            }
+          }
+        });
 
-      ApiUtil.fetchBenches({bounds: bounds});
+      ApiUtil.fetchBenches();
     });
 
     this.googleMap.addListener('click', this.clickMapHandler);
