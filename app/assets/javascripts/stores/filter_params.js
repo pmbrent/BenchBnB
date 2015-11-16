@@ -2,7 +2,10 @@
 
   var _params = {
     bounds: {},
-    seating: {}
+    seating: {
+      min: 0,
+      max: 5
+    }
   };
   var CHANGE_EVENT = "change";
 
@@ -15,7 +18,8 @@
     updateParams: function(params) {
 
       if (typeof params.seating !== "undefined") {
-        _params.seating = params.seating;
+        _params.seating.max = params.seating.max || _params.seating.max;
+        _params.seating.min = params.seating.min || _params.seating.min;
       }
 
       if (typeof params.bounds !== "undefined") {
@@ -35,7 +39,7 @@
     dispatcherID: AppDispatcher.register(function (payload) {
       switch (payload.actionType) {
         case FilterConstants.FILTERS_RECEIVED:
-          FilterStore.resetParams(payload.params);
+          FilterStore.updateParams(payload.params);
           FilterStore.emit(CHANGE_EVENT);
           break;
       }

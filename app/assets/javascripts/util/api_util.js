@@ -9,7 +9,7 @@ window.ApiUtil = {
         bounds += "&bounds[southWest][lng]=" + params.bounds.southWest.lng;
 
     var seating = "seating[min]=" + params.seating.min;
-        seating += "seating[max]=" + params.seating.max;
+        seating += "&seating[max]=" + params.seating.max;
 
     $.ajax ({
       url: "/benches?" + bounds + "&" + seating,

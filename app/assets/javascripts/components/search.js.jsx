@@ -21,6 +21,7 @@ window.Search = React.createClass({
 
   updateParams: function() {
     this.setState({params: FilterStore.all()});
+    ApiUtil.fetchBenches();  //needed?
   },
 
   clickMapHandler: function(coords) {
@@ -31,6 +32,7 @@ window.Search = React.createClass({
     return (
       <div>
         <Map onClick={this.clickMapHandler}/>
+        <FilterParams/>
         <Index />
       </div>
     );

@@ -11,4 +11,8 @@ class Bench < ActiveRecord::Base
                 .where("lng <= ? AND lng >= ?", bounds["northEast"]["lng"], bounds["southWest"]["lng"])
   end
 
+  def self.with_seating(seating)
+    return Bench.where("seating >= ? AND seating <= ?", seating["min"], seating["max"])
+  end
+
 end

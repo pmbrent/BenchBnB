@@ -1,7 +1,7 @@
 class BenchesController < ApplicationController
 
   def index
-    @benches = Bench.in_bounds(params[:bounds])
+    @benches = Bench.in_bounds(params[:bounds]).with_seating(params[:seating])
     render json: @benches
   end
 
