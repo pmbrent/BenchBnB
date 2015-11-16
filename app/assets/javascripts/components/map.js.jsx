@@ -95,9 +95,10 @@ window.Map = React.createClass({
                           position: LatLng,
                           animation: google.maps.Animation.DROP,
                           id: bench.id});
-        // newMarker.addListener("click",
-        //   function() {
-        //     this.clickMarker.call(newMarker.id);}.bind(this));
+        newMarker.addListener("click",
+          function() {
+            this.clickMarker(newMarker.id);
+          }.bind(this));
         this._markers.push(newMarker);
       }
      }.bind(this));
