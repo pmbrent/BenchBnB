@@ -6,6 +6,13 @@ window.ApiActions = {
     });
   },
 
+  receiveSingleBench: function(bench) {
+    AppDispatcher.dispatch({
+      actionType: BenchConstants.BENCH_RECEIVED,
+      bench: bench
+    });
+  },
+
   highlightBench: function(bench) {
     AppDispatcher.dispatch({
       actionType: BenchConstants.BENCH_HIGHLIGHTED,

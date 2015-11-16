@@ -3,35 +3,67 @@ window.Map = React.createClass({
   googleMap: undefined,
   _markers: [],
 
+  getInitialState: function() {
+    var foundBench = null;
+    if (typeof this.props.benchId !== "undefined") {
+      foundBench = {bench: ApiUtil.findBench(this.props.benchId)};
+    }
+    return foundBench;
+  },
+
   componentDidMount: function() {
+
+    var lat = 40.724948;
+    var lng = -73.998893;
+    var zoom = 11;
+
     this.googleMap = new google.maps.Map(document.getElementById("map"), {
-      center: {lat: 40.724948, lng: -73.998893},
-      zoom: 13
+      center: {lat: lat, lng: lng},
+      zoom: zoom
     });
 
     BenchStore.addChangeListener(this.makeMarkers);
     MarkerStore.addHighlightListener(this.highlightMarker);
 
-    this.googleMap.addListener('idle', function() {
-      var nativeBounds = this.getBounds();
+    if (typeof this.props.benchId !== "undefined") {
+      BenchStore.addBenchListener(this.receiveBench);
 
-      FilterStore.updateParams({
-          bounds: {
-            northEast: {
-              lat: nativeBounds.getNorthEast().lat(),
-              lng: nativeBounds.getNorthEast().lng()
-            },
-            southWest: {
-              lat: nativeBounds.getSouthWest().lat(),
-              lng: nativeBounds.getSouthWest().lng()
+    } else {
+      this.googleMap.addListener('idle', function() {
+        var nativeBounds = this.getBounds();
+
+        FilterStore.updateParams({
+            bounds: {
+              northEast: {
+                lat: nativeBounds.getNorthEast().lat(),
+                lng: nativeBounds.getNorthEast().lng()
+              },
+              southWest: {
+                lat: nativeBounds.getSouthWest().lat(),
+                lng: nativeBounds.getSouthWest().lng()
+              }
             }
-          }
-        });
+          });
+        ApiUtil.fetchBenches();
+      });
 
-      ApiUtil.fetchBenches();
-    });
+    if (typeof this.props.benchId === "undefined") {
+      this.googleMap.addListener('click', this.clickMapHandler);
+    }
 
-    this.googleMap.addListener('click', this.clickMapHandler);
+  }},
+
+  receiveBench: function() {
+    var newBench = BenchStore.all()[0];
+    this.setState({bench: newBench});
+    this.googleMap.setOptions({draggable: false,
+                               center: {
+                                 lat: this.state.bench.lat,
+                                 lng: this.state.bench.lng},
+                               zoom: 15});
+    var LatLng = {lat: this.state.bench.lat, lng: this.state.bench.lng};
+    this._markers.push(new google.maps.Marker({map: this.googleMap, position: LatLng,
+      animation: google.maps.Animation.DROP, id: this.props.benchId}));
   },
 
   clickMapHandler: function(e) {
@@ -90,8 +122,10 @@ window.Map = React.createClass({
   },
 
   componentWillUnmount: function() {
-    BenchStore.removeChangeListener(this.makeMarkers);
-    MarkerStore.removeHighlightListener(this.highlightMarker);
+    if (this.state !== null) {
+      BenchStore.removeChangeListener(this.makeMarkers);
+      MarkerStore.removeHighlightListener(this.highlightMarker);
+    }
   },
 
   render: function() {

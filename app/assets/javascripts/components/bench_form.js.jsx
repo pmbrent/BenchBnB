@@ -19,6 +19,10 @@ window.BenchForm = React.createClass({
     this.setState({lng: event.currentTarget.value});
   },
 
+  updateSeating: function(event) {
+    this.setState({seating: event.currentTarget.value});
+  },
+
   updateDescription: function(event) {
     this.setState({description: event.currentTarget.value});
   },
@@ -43,6 +47,13 @@ window.BenchForm = React.createClass({
           id="lng"
           value={this.state.lng}
           onChange={this.updateLng}/>
+      </label>
+      <br/>
+      <label htmlFfor="seating">Seating:
+        <input type="text"
+          id="seating"
+          value={this.state.seating}
+          onChange={this.updateSeating}/>
       </label>
       <br/>
       <label htmlFor="description">Description:
